@@ -3,12 +3,14 @@
 <h4>Before starting with this project, make sure you have docker for desktop is installed and kubernetes is enabled there as shown in below image1</h4>
 
 <h4>Also verify if minikube is installed and it should nbe started using below command</h4>
+
+<br>[Click Here To Go To Image1](https://github.com/ShubhPatil95/kubernetes_seminar/assets/74223025/29e58edf-13a0-4648-a013-89d9fa5773d3)</br>
+
 <p>
+    
 ```ruby
 minikube start
 ```
-<br>[Click Here To Go To Image1](https://github.com/ShubhPatil95/kubernetes_seminar/assets/74223025/29e58edf-13a0-4648-a013-89d9fa5773d3)</br>
-
 
 Step1: Create directory structure.
 ```ruby
