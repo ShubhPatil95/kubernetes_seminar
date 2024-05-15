@@ -302,13 +302,20 @@ spec:
   type: ClusterIP
 ```
 
+Step 10: Start deployment and service
+```ruby
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl get pods
+kubectl get svc
+```
 
-Step 10: Port forwarding
+Step 11: Port forwarding
 ```ruby
 kubectl port-forward service/house-price-api 8080:80
 ```
 
-Step 11: Access curl
+Step 12: Access curl
 ```ruby
 curl -X POST -H "Content-Type: application/json" -d '{"area":1000,"bedrooms":2,"stories":1,"mainroad":"yes","basement":"no"}' http://localhost:8080/predict
 ```
