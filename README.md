@@ -10,7 +10,7 @@
 <h4> Create virtual environment</h4>
 ```ruby
 python -m venv venv_kubernetes
-source venv_kubernets/Scripts/activate
+source venv_kubernetes/Scripts/activate
 ```
 
 <p>
