@@ -165,4 +165,142 @@ if __name__ == "__main__":
 ```
 
 
+Step 4: Create app.py 
+```ruby
+nano app.py
+```
+
+```ruby
+from flask import Flask, request, jsonify
+import joblib
+
+app = Flask(__name__)
+
+# Load the trained model
+model = joblib.load("house_price_model.joblib")
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    # Get input features from request
+    data = request.get_json()
+
+    # Extract features
+    area = data['area']
+    bedrooms = data['bedrooms']
+    stories = data['stories']
+    mainroad = 1 if data['mainroad'] == 'yes' else 0
+    basement = 1 if data['basement'] == 'yes' else 0
+
+    # Make prediction
+    prediction = model.predict([[area, bedrooms, stories, mainroad, basement]])
+
+    # Return prediction as JSON
+    return jsonify({'predicted_price': int(prediction[0])})
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
+
+```
+
+Step 5: test flask application
+```ruby
+python app.py
+```
+```ruby
+curl -X POST -H "Content-Type: application/json" -d '{"area":1000,"bedrooms":2,"stories":1,"mainroad":"yes","basement":"no"}' http://localhost:5000/predict 
+```
+
+Step 6: Create Dockerfile
+```ruby
+nano Dockerfile
+```
+
+```ruby
+# Use an official Python runtime as a parent image
+FROM python:3.9-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Install Flask and scikit-learn
+RUN pip install -r requirements.txt
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Define environment variable
+ENV NAME World
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
+
+```
+
+Step 7: Build and push image to dockerhub
+```ruby
+docker build -t model_image .
+docker tag model_image shubhpatil95/model_image
+docker push shubhpatil95/model_image
+docker run -p 5000:5000 model_image
+```
+Step 8: create deployment.yaml
+
+```ruby
+nano deployment.yaml
+```
+```ruby
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: house-price-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: house-price-api
+  template:
+    metadata:
+      labels:
+        app: house-price-api
+    spec:
+      containers:
+      - name: house-price-api
+        image: shubhpatil95/model_image
+        ports:
+        - containerPort: 5000
+```
+
+Step 9: create service.yaml
+
+```ruby
+nano service.yaml
+```
+```ruby
+apiVersion: v1
+kind: Service
+metadata:
+  name: house-price-api
+spec:
+  selector:
+    app: house-price-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
+  type: ClusterIP
+```
+
+
+Step 10: Port forwarding
+```ruby
+kubectl port-forward service/house-price-api 8080:80
+```
+
+Step 11: Access curl
+```ruby
+curl -X POST -H "Content-Type: application/json" -d '{"area":1000,"bedrooms":2,"stories":1,"mainroad":"yes","basement":"no"}' http://localhost:8080/predict
+```
 </p>
