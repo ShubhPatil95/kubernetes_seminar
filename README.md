@@ -6,6 +6,13 @@
 
 <br>[Click Here To Go To Image1](https://github.com/ShubhPatil95/kubernetes_seminar/assets/74223025/29e58edf-13a0-4648-a013-89d9fa5773d3)</br>
 
+
+<h4> Create virtual environment</h4>
+```ruby
+python -m venv venv_kubernetes
+source venv_kubernets/Scripts/activate
+```
+
 <p>
     
 ```ruby
