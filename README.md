@@ -216,7 +216,10 @@ Step 5: test flask application
 python app.py
 ```
 ```ruby
-curl -X POST -H "Content-Type: application/json" -d '{"area":1000,"bedrooms":2,"stories":1,"mainroad":"yes","basement":"no"}' http://localhost:5000/predict 
+curl -X POST -H "Content-Type: application/json" -d '{"area":1000,"bedrooms":2,"stories":1,"mainroad":"yes","basement":"no"}' http://localhost:5000/predict
+
+curl -X POST -H "Content-Type: application/json" -d "{\"area\":1000,\"bedrooms\":2,\"stories\":1,\"mainroad\":\"yes\",\"basement\":\"no\"}" http://localhost:5000/predict
+
 ```
 
 Step 6: Create Dockerfile
